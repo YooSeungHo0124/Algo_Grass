@@ -38,10 +38,6 @@ public class Main {
                             moved = true;
                             int avg = sum / union.size();
                             unions.add(union);
-                            // 연합 정보 저장 (나중에 한 번에 업데이트)
-                            for (int[] pos : union) {
-                                map[pos[0]][pos[1]] = avg; // ❌ 아직 업데이트하면 안 됨!
-                            }
                         }
                     }
                 }
@@ -49,7 +45,11 @@ public class Main {
 
             // 2. 모든 연합의 인구 동시 업데이트
             for (List<int[]> union : unions) {
-                int avg = union.stream().mapToInt(pos -> map[pos[0]][pos[1]]).sum() / union.size();
+                int sum = 0;
+                for (int[] pos : union) {
+                    sum += map[pos[0]][pos[1]];
+                }
+                int avg = sum / union.size();
                 for (int[] pos : union) {
                     map[pos[0]][pos[1]] = avg;
                 }
